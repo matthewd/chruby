@@ -22,6 +22,15 @@ all:
 pkg:
 	mkdir $(PKG_DIR)
 
+share/man/man1/chruby.1: doc/man/chruby.1.md
+	kramdown-man <doc/man/chruby.1.md >share/man/man1/chruby.1
+
+share/man/man1/chruby-exec.1: doc/man/chruby-exec.1.md
+	kramdown-man <doc/man/chruby-exec.1.md >share/man/man1/chruby-exec.1
+
+update-man: share/man/man1/chruby.1 share/man/man1/chruby-exec.1
+	git commit -m "Updated the man pages" doc/man/chruby.1.md share/man/man1/chruby.1 doc/man/chruby-exec.1.md share/man/man1/chruby-exec.1
+	
 download: pkg
 	wget -O $(PKG) $(URL)/archive/v$(VERSION).tar.gz
 
@@ -74,4 +83,4 @@ uninstall:
 	rm -rf $(DESTDIR)$(PREFIX)/$(DOC_DIR)
 	rmdir $(DESTDIR)$(PREFIX)/$(SHARE_DIR)
 
-.PHONY: build download sign verify clean check test tag release rpm install uninstall all
+.PHONY: build man download sign verify clean check test tag release rpm install uninstall all
