@@ -21,6 +21,9 @@ function chruby_auto() {
 	if [[ -n "$RUBY_AUTO_VERSION" ]]; then
 		chruby_reset
 		unset RUBY_AUTO_VERSION
+		if [[ -n "$RUBY_DEFAULT_VERSION" ]]; then
+			chruby "$RUBY_DEFAULT_VERSION"
+		fi
 	fi
 }
 
