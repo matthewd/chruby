@@ -27,6 +27,7 @@ function chruby_reset()
 
 	PATH="${PATH#:}"; PATH="${PATH%:}"
 	unset RUBY_ROOT RUBY_ENGINE RUBY_VERSION RUBYOPT GEM_ROOT
+	[[ -z "$GLOBAL_RUBYOPT" ]] || export RUBYOPT="$GLOBAL_RUBYOPT"
 	hash -r
 }
 
@@ -40,7 +41,7 @@ function chruby_use()
 	[[ -n "$RUBY_ROOT" ]] && chruby_reset
 
 	export RUBY_ROOT="$1"
-	export RUBYOPT="$2"
+	export RUBYOPT="${GLOBAL_RUBYOPT:+$GLOBAL_RUBYOPT }$2"
 	export PATH="$RUBY_ROOT/bin:$PATH"
 
 	eval "$(RUBYGEMS_GEMDEPS="" "$RUBY_ROOT/bin/ruby" - <<EOF
